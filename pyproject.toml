@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "renrence"
+version = "0.1.0"
+description = ""
+authors = ["yuetsh <517252939@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+pandas = "^2.2.2"
+openpyxl = "^3.1.2"
+pyside6 = "^6.7.0"
+qt-material = "^2.14"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

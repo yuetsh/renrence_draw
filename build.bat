@@ -1,0 +1,1 @@
+pyinstaller -w -F --icon=ui.ico ui.py
