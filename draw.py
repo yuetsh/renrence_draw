@@ -24,3 +24,13 @@ def draw(filepath):
 
     result["序号"] = range(1, 1 + len(result))
     return result
+
+
+"""
+users 是已经在语数英中抽到的学生 pf
+filepath 是专业课文件路径
+"""
+
+
+def draw_zhuanyeke(users, filepath):
+    pass
