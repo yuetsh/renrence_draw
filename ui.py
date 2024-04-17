@@ -43,9 +43,8 @@ class MainWindow(QWidget):
 
         self.zhuanyeke1 = QPushButton("第一步：上传【语数英】已经抽到的学生名单 EXECL")
         self.zhuanyeke1.clicked.connect(self.upload_yushuying)
-        self.zhuanyeke2 = QPushButton("第二步：上传各校专业课成绩 EXCEL")
-        self.zhuanyeke2.setDisabled(True)
-        self.zhuanyeke2.clicked.connect(self.handle_draw_zhuanyeke)
+        zhuanyeke2 = QPushButton("第二步：上传各校专业课成绩 EXCEL")
+        zhuanyeke2.clicked.connect(self.handle_draw_zhuanyeke)
 
         info1 = QLabel("语数英")
         info1.setAlignment(Qt.AlignCenter)
@@ -63,7 +62,7 @@ class MainWindow(QWidget):
 
         self.layout.addWidget(info2)
         self.layout.addWidget(self.zhuanyeke1)
-        self.layout.addWidget(self.zhuanyeke2)
+        self.layout.addWidget(zhuanyeke2)
 
         self.layout.addWidget(self.message)
 
@@ -90,7 +89,6 @@ class MainWindow(QWidget):
             return
         self.yushuying_users = pd.read_excel(file, sheet_name=0)
         self.zhuanyeke1.setDisabled(True)
-        self.zhuanyeke2.setDisabled(False)
 
     @Slot()
     def handle_draw_zhuanyeke(self):
