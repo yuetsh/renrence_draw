@@ -3,7 +3,7 @@ import os
 # import shutil
 import sys
 
-from PySide6.QtCore import Qt, QUrl, Slot
+from PySide6.QtCore import Qt, QUrl, Slot, QTimer
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import (
     QApplication,
@@ -33,6 +33,8 @@ class MainWindow(QWidget):
         self.school2_name = ""
         self.school1_count = 15
         self.school2_count = 9
+
+        self.run_id = 0
 
         self.renderer()
 
@@ -132,7 +134,8 @@ class MainWindow(QWidget):
     def handle_draw_yushuying(self):
         if not self.file:
             return
-        self.message.setText("抽取中...")
+        self.run_id += 1
+        self.message.setText(f"尝试第 {self.run_id} 次抽取...")
         try:
             df = draw_two(
                 self.file,
@@ -141,9 +144,10 @@ class MainWindow(QWidget):
             )
             download(df, self.target_dir, self.file)
             self.message.setText("抽取成功！")
+            self.run_id = 0
             QDesktopServices.openUrl(QUrl.fromLocalFile(self.target_dir))
-        except ValueError as e:
-            self.message.setText(e.args[0])
+        except ValueError:
+            QTimer.singleShot(100, self.handle_draw_yushuying)
 
 
 if __name__ == "__main__":
