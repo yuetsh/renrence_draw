@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
 )
 from qt_material import apply_stylesheet
 
-from download import download
+from utils import download
 from draw import draw_one, draw_zhuanyeke
 
 
@@ -53,7 +53,7 @@ class MainWindow(QWidget):
 
         info1 = QLabel("科目：语数英，A、B、C的人数：")
         info1.setAlignment(Qt.AlignCenter)
-        info1.setStyleSheet("font-size: 20px")
+        info1.setStyleSheet("font-size: 20pt")
 
         self.renshu_edit = QLineEdit()
         self.renshu_edit.setFixedWidth(100)

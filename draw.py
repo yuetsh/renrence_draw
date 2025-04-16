@@ -1,3 +1,4 @@
+import random
 import openpyxl
 import pandas as pd
 
@@ -7,9 +8,6 @@ def draw_one(filepath, count):
     course_count = len(wb.sheetnames)
 
     result = pd.DataFrame()
-
-    first_sheet = pd.read_excel(filepath, sheet_name=0, skiprows=1)
-    top_school = first_sheet["学校"].value_counts().idxmax()
 
     for i in range(course_count):
         df = pd.read_excel(filepath, sheet_name=i, skiprows=1)
@@ -30,39 +28,50 @@ def draw_one(filepath, count):
     return result
 
 
-def draw_two(filepath):
+def draw_two(filepath, school1, school2):
     wb = openpyxl.load_workbook(filepath)
     course_count = len(wb.sheetnames)
 
     result = pd.DataFrame()
-
-    first_sheet = pd.read_excel(filepath, sheet_name=0, skiprows=1)
-    top_school = first_sheet["学校"].value_counts().idxmax()
 
     for i in range(course_count):
         df = pd.read_excel(filepath, sheet_name=i, skiprows=1)
         df = pd.concat([df, result]).drop_duplicates("身份证号", keep=False)
 
         """
-        学校（人数多的） ———— 15
-        学校（人数少的） ———— 9
+                学校 ———— 人数
+        school1[0]  ———— school1[1]
+        school2[0]  ———— school2[1]
 
         A8 B8 C8
         """
 
-        for school, group in df.groupby("学校"):
-            a = group[group["等级"] == "A"]
-            b = group[group["等级"] == "B"]
-            c = group[group["等级"] == "C"]
+        """
+        一个一个来
+        """
 
-            n = 5 if school == top_school else 3
+        start = int(school1[1]/24*10)
 
-            random_a = a.sample(n=n)
-            random_b = b.sample(n=n)
-            random_c = c.sample(n=n)
+        school1_rest = school1[1]
+        school2_rest = school2[1]
 
-            course = pd.concat([random_a, random_b, random_c])
-            result = pd.concat([result, course])
+        n1 = random.randint(start, 8)
+        a1 = df[(df["等级"] == "A") & (df["学校"] == school1[0])].sample(n=n1)
+        school1_rest -= n1
+        a2 = df[(df["等级"] == "A") & (df["学校"] == school2[0])].sample(n=(8-n1))
+        school2_rest -= (8-n1)
+        
+        n2 = random.randint(start, 8)
+        b1 = df[(df["等级"] == "B") & (df["学校"] == school1[0])].sample(n=n2)
+        school1_rest -= n2
+        b2 = df[(df["等级"] == "B") & (df["学校"] == school2[0])].sample(n=(8-n2))
+        school2_rest -= (8-n2)
+
+        c1 = df[(df["等级"] == "C") & (df["学校"] == school1[0])].sample(n=school1_rest)
+        c2 = df[(df["等级"] == "C") & (df["学校"] == school2[0])].sample(n=school2_rest)
+
+        course = pd.concat([a1, a2, b1, b2, c1, c2])
+        result = pd.concat([result, course])
 
     result["序号"] = range(1, 1 + len(result))
     return result
