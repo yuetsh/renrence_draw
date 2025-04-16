@@ -53,13 +53,13 @@ def draw_two(filepath, school1, school2):
         school1_rest = school1[1]
         school2_rest = school2[1]
 
-        n1 = random.randint(0, 8)
+        n1 = random.randint(1, 8)
         a1 = df[(df["等级"] == "A") & (df["学校"] == school1[0])].sample(n=n1)
         school1_rest -= n1
         a2 = df[(df["等级"] == "A") & (df["学校"] == school2[0])].sample(n=(8 - n1))
         school2_rest -= 8 - n1
 
-        n2 = random.randint(0, 8)
+        n2 = random.randint(1, 8)
         b1 = df[(df["等级"] == "B") & (df["学校"] == school1[0])].sample(n=n2)
         school1_rest -= n2
         b2 = df[(df["等级"] == "B") & (df["学校"] == school2[0])].sample(n=(8 - n2))
