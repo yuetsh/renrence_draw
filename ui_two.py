@@ -1,4 +1,5 @@
 import os
+
 # import shutil
 import sys
 
@@ -162,7 +163,8 @@ if __name__ == "__main__":
     #     else:
     #         exit()
 
-    # os.mkdir(target_dir)
+    if not os.path.exists(target_dir):
+        os.mkdir(target_dir)
 
     window = MainWindow(target_dir)
     apply_stylesheet(app, theme="dark_teal.xml")
