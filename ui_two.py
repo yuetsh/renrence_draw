@@ -25,14 +25,14 @@ class MainWindow(QWidget):
     def __init__(self, target_dir):
         super().__init__()
         self.target_dir = target_dir
-        
+
         self.draw_count = 0
 
         self.school1_name = ""
         self.school2_name = ""
         self.school1_count = 15
         self.school2_count = 9
-        
+
         self.renderer()
 
     def renderer(self):
@@ -132,14 +132,17 @@ class MainWindow(QWidget):
         if not self.file:
             return
         self.message.setText("抽取中...")
-        df = draw_two(
-            self.file,
-            (self.school1_name, self.school1_count),
-            (self.school2_name, self.school2_count),
-        )
-        download(df, self.target_dir, self.file)
-        self.message.setText("抽取成功！")
-        QDesktopServices.openUrl(QUrl.fromLocalFile(self.target_dir))
+        try:
+            df = draw_two(
+                self.file,
+                (self.school1_name, self.school1_count),
+                (self.school2_name, self.school2_count),
+            )
+            download(df, self.target_dir, self.file)
+            self.message.setText("抽取成功！")
+            QDesktopServices.openUrl(QUrl.fromLocalFile(self.target_dir))
+        except ValueError as e:
+            self.message.setText(e.args[0])
 
 
 if __name__ == "__main__":
