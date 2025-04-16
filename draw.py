@@ -2,12 +2,40 @@ import openpyxl
 import pandas as pd
 
 
-def draw(filepath):
+def draw_one(filepath, count):
     wb = openpyxl.load_workbook(filepath)
     course_count = len(wb.sheetnames)
 
     result = pd.DataFrame()
-    
+
+    first_sheet = pd.read_excel(filepath, sheet_name=0, skiprows=1)
+    top_school = first_sheet["学校"].value_counts().idxmax()
+
+    for i in range(course_count):
+        df = pd.read_excel(filepath, sheet_name=i, skiprows=1)
+        df = pd.concat([df, result]).drop_duplicates("身份证号", keep=False)
+
+        a = df[df["等级"] == "A"]
+        b = df[df["等级"] == "B"]
+        c = df[df["等级"] == "C"]
+
+        random_a = a.sample(n=count)
+        random_b = b.sample(n=count)
+        random_c = c.sample(n=count)
+
+        course = pd.concat([random_a, random_b, random_c])
+        result = pd.concat([result, course])
+
+    result["序号"] = range(1, 1 + len(result))
+    return result
+
+
+def draw_two(filepath):
+    wb = openpyxl.load_workbook(filepath)
+    course_count = len(wb.sheetnames)
+
+    result = pd.DataFrame()
+
     first_sheet = pd.read_excel(filepath, sheet_name=0, skiprows=1)
     top_school = first_sheet["学校"].value_counts().idxmax()
 
