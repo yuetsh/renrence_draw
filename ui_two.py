@@ -126,9 +126,9 @@ class MainWindow(QWidget):
     @Slot()
     def handle_total_count(self):
         self.total_count = int(self.total_counts_edit.text())
-        self.school1_count = int(self.total_count/3*2)
+        self.school1_count = int(self.total_count//3*2)
         self.school1_count_edit.setText(str(self.school1_count))
-        self.school2_count = int(self.total_count/3)
+        self.school2_count = int(self.total_count//3)
         self.school2_count_edit.setText(str(self.school2_count))
 
 

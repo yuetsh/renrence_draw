@@ -51,7 +51,7 @@ def draw_two(filepath, school1, school2):
         """
 
         start = 1
-        total = (school1[1] + school2[1]) // 3
+        total = int((school1[1] + school2[1]) // 3)
         end = total - 1
 
         print(start, total, end)
