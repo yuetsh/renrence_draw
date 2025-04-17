@@ -31,6 +31,7 @@ class MainWindow(QWidget):
 
         self.school1_name = ""
         self.school2_name = ""
+        self.total_count = 24
         self.school1_count = 15
         self.school2_count = 9
 
@@ -54,6 +55,25 @@ class MainWindow(QWidget):
         btn1.clicked.connect(self.handle_get_schools)
         btn1.setFixedWidth = 100
 
+        # 总人数
+        self.total_counts = QWidget()
+        self.total_counts.setVisible(False)
+        total_counts_hbox = QHBoxLayout(self.total_counts)
+
+        self.total_counts_label = QLabel("要抽取的总人数（要是3的倍数）")
+        self.total_counts_label.setStyleSheet("font-size: 20pt")
+        self.total_counts_edit = QLineEdit()
+        self.total_counts_edit.setStyleSheet("font-size: 20pt")
+        self.total_counts_edit.setFixedWidth(100)
+        self.total_counts_edit.setText("24")
+        self.total_counts_edit.textChanged.connect(self.handle_total_count)
+
+        total_counts_hbox.addStretch(1)
+        total_counts_hbox.addWidget(self.total_counts_label)
+        total_counts_hbox.addWidget(self.total_counts_edit)
+        total_counts_hbox.addStretch(1)
+
+        # 学校人数
         self.counts = QWidget()
         self.counts.setVisible(False)
         counts_hbox = QHBoxLayout(self.counts)
@@ -94,6 +114,8 @@ class MainWindow(QWidget):
         self.layout.addWidget(info1)
         self.layout.addWidget(btn1)
 
+        self.layout.addWidget(self.total_counts)
+
         self.layout.addWidget(self.counts)
 
         self.layout.addWidget(self.btn2)
@@ -102,15 +124,24 @@ class MainWindow(QWidget):
         self.layout.addStretch(1)
 
     @Slot()
+    def handle_total_count(self):
+        self.total_count = int(self.total_counts_edit.text())
+        self.school1_count = int(self.total_count/3*2)
+        self.school1_count_edit.setText(str(self.school1_count))
+        self.school2_count = int(self.total_count/3)
+        self.school2_count_edit.setText(str(self.school2_count))
+
+
+    @Slot()
     def handle_school1_count(self):
         self.school1_count = int(self.school1_count_edit.text())
-        self.school2_count = 24 - self.school1_count
+        self.school2_count = self.total_count - self.school1_count
         self.school2_count_edit.setText(str(self.school2_count))
 
     @Slot()
     def handle_school2_count(self):
         self.school2_count = int(self.school2_count_edit.text())
-        self.school1_count = 24 - self.school2_count
+        self.school1_count = self.total_count - self.school2_count
         self.school1_count_edit.setText(str(self.school1_count))
 
     @Slot()
@@ -127,6 +158,7 @@ class MainWindow(QWidget):
         self.school2_name_label.setText(school2)
         self.school1_name = school1
         self.school2_name = school2
+        self.total_counts.setVisible(True)
         self.counts.setVisible(True)
         self.btn2.setVisible(True)
 

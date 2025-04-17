@@ -50,20 +50,26 @@ def draw_two(filepath, school1, school2):
         一个一个来
         """
 
+        start = 1
+        total = (school1[1] + school2[1]) // 3
+        end = total - 1
+
+        print(start, total, end)
+
         school1_rest = school1[1]
         school2_rest = school2[1]
 
-        n1 = random.randint(1, 7)
+        n1 = random.randint(start, end)
         a1 = df[(df["等级"] == "A") & (df["学校"] == school1[0])].sample(n=n1)
         school1_rest -= n1
-        a2 = df[(df["等级"] == "A") & (df["学校"] == school2[0])].sample(n=(8 - n1))
-        school2_rest -= 8 - n1
+        a2 = df[(df["等级"] == "A") & (df["学校"] == school2[0])].sample(n=(total - n1))
+        school2_rest -= total - n1
 
-        n2 = random.randint(1, 7)
+        n2 = random.randint(start, end)
         b1 = df[(df["等级"] == "B") & (df["学校"] == school1[0])].sample(n=n2)
         school1_rest -= n2
-        b2 = df[(df["等级"] == "B") & (df["学校"] == school2[0])].sample(n=(8 - n2))
-        school2_rest -= 8 - n2
+        b2 = df[(df["等级"] == "B") & (df["学校"] == school2[0])].sample(n=(total - n2))
+        school2_rest -= total - n2
 
         if school1_rest <= 0 or school2_rest <= 0:
             raise ValueError("抽取失败，请重新抽取")
