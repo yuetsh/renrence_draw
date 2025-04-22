@@ -12,7 +12,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QVBoxLayout,
     QWidget,
-    QMessageBox,
     QHBoxLayout,
     QLineEdit,
 )
@@ -187,18 +186,7 @@ if __name__ == "__main__":
 
     cwd = os.getcwd()
     target_dir = os.path.join(cwd, "已抽取")
-    # if os.path.exists(target_dir):
-    #     reply = QMessageBox.warning(
-    #         None,
-    #         "友情提醒",
-    #         "检测到当前目录已经存在【已抽取】文件夹，是否删除它？\n\n选【Yes】自动删除\n选【No】请手动改名后再打开软件",
-    #         QMessageBox.Yes | QMessageBox.No,
-    #     )
-    #     if reply == QMessageBox.Yes:
-    #         shutil.rmtree(target_dir)
-    #     else:
-    #         exit()
-
+    
     if not os.path.exists(target_dir):
         os.mkdir(target_dir)
 
