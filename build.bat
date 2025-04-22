@@ -1,1 +1,1 @@
-pyinstaller -w -F --icon=ui.ico ui_two.py
+pyinstaller -w -F --icon=ui.ico ui_three.py
